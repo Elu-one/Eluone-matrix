@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "components/Component5_StewardTier.tsx",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/steward-tier",
+      "dest": "components/Component5_StewardTier.tsx"
+    }
+  ]
+}
