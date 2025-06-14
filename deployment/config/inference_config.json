@@ -1,0 +1,45 @@
+{
+  "model_path": "/secure/models/elulmc-sovereign-agi",
+  "tokenizer_path": "/secure/models/elulmc-sovereign-agi",
+  "max_tokens": 512,
+  "temperature": 0.7,
+  "top_p": 0.9,
+  "loyalty_check": true,
+  "rate_limit_per_minute": 60,
+  "max_concurrent_requests": 10,
+  "audit_logging": true,
+  "security": {
+    "require_authentication": true,
+    "jwt_expiration_hours": 24,
+    "max_session_duration_hours": 8,
+    "ip_whitelist": [],
+    "enable_rate_limiting": true,
+    "enable_request_logging": true
+  },
+  "enclave": {
+    "enable_attestation": true,
+    "attestation_service_url": "https://attestation.elulmc.internal",
+    "measurement_verification": true,
+    "secure_boot_required": true
+  },
+  "monitoring": {
+    "enable_metrics": true,
+    "metrics_port": 9090,
+    "log_level": "INFO",
+    "audit_log_path": "/secure/logs/audit.log",
+    "performance_monitoring": true
+  },
+  "loyalty_enforcement": {
+    "rules_path": "governance/policies/loyalty_rules.json",
+    "strict_mode": true,
+    "escalation_enabled": true,
+    "violation_threshold": 3
+  },
+  "data_protection": {
+    "encrypt_requests": true,
+    "encrypt_responses": true,
+    "pii_detection": true,
+    "content_filtering": true,
+    "output_sanitization": true
+  }
+}
