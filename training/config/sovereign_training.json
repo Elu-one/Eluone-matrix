@@ -1,0 +1,30 @@
+{
+  "model_name": "microsoft/DialoGPT-medium",
+  "dataset_path": "/airgap/training/elulmc_sovereign_dataset.json",
+  "output_dir": "/secure/models/elulmc-sovereign-agi",
+  "max_steps": 10000,
+  "learning_rate": 5e-5,
+  "batch_size": 4,
+  "gradient_accumulation_steps": 8,
+  "warmup_steps": 500,
+  "logging_steps": 100,
+  "save_steps": 1000,
+  "eval_steps": 500,
+  "loyalty_weight": 2.0,
+  "consistency_weight": 1.0,
+  "differential_privacy": false,
+  "dp_noise_multiplier": 1.0,
+  "dp_max_grad_norm": 1.0,
+  "security": {
+    "enable_audit_logging": true,
+    "verify_data_integrity": true,
+    "encrypt_checkpoints": true,
+    "loyalty_validation_frequency": 100
+  },
+  "training_environment": {
+    "air_gapped": true,
+    "secure_random_seed": true,
+    "memory_encryption": true,
+    "disable_external_access": true
+  }
+}
