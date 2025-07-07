@@ -1,9 +1,6 @@
 name: Auto-Fix Full Repo
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
@@ -15,17 +12,20 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Apply structural, license, CI & watermark fixes
         shell: bash
         run: |
           set -euo pipefail
 
+          # Set authenticated origin for pushing later
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+
           # 1. LICENSE
           cat > LICENSE << 'EOF'
 Copyright © 2025 Luke Mitchell Crawford (ELULMC).
 All Rights Reserved.
-
 This repository and its contents (…) are the sole and exclusive property of Luke Mitchell Crawford.
 For permissions, contact: luke@eluone.com
 EOF
@@ -80,21 +80,25 @@ EOF
           # 8. Stub audits & infra
           mkdir -p elulmc-agi/audits/analysis_tools
           cat > elulmc-agi/audits/analysis_tools/analysis.py << 'EOF'
-… your analysis.py stub …
+# Placeholder for audit analysis tools
 EOF
+
           mkdir -p elulmc-agi/infrastructure/terraform
           cat > elulmc-agi/infrastructure/terraform/main.tf << 'EOF'
-… your Terraform stub …
+# Terraform config stub
 EOF
+
           mkdir -p elulmc-agi/infrastructure/ansible
           cat > elulmc-agi/infrastructure/ansible/playbook.yml << 'EOF'
-… your Ansible stub …
+# Ansible playbook stub
 EOF
 
           # 9. Data pipeline config
           mkdir -p config
           cat > config/data_collection.json << 'EOF'
-… your JSON stub …
+{
+  "stub": true
+}
 EOF
 
           # 10. Watermark headers
@@ -117,12 +121,16 @@ def test_placeholder():
     assert True
 EOF
 
-          # 13. Commit & push
+          # 13. Commit & push safely
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "chore: full repo auto-fix"
-          git push origin main --follow-tags
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: full repo auto-fix [skip ci]"
+            git push origin main --follow-tags
+          else
+            echo "No changes to commit."
+          fi
 
       - name: Complete
-        run: echo "All fixes applied."
+        run: echo "✅ Auto-fix completed successfully."
