@@ -1,4 +1,4 @@
-name: Auto-Fix Full Repo
+ name: Auto-Fix Full Repo
 
 on:
   push:
