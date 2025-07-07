@@ -1,7 +1,9 @@
 name: Auto-Fix Full Repo
+
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -197,4 +199,4 @@ EOF
           git push origin main --follow-tags
 
       - name: Complete
-        run: echo "Full repo fixes applied and pushed."
+        run: echo "All fixes applied and pushed."
