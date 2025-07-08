@@ -1,4 +1,33 @@
-name: Auto-Fix Full Repo
+ name: Auto Fix Full
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/auto_fix_full.yml'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  autofix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+      - name: Run Auto Fix
+        run: |
+          echo "Auto-fix logic here..."
+          git diff --quiet || (git commit -am "Auto fix" && git push)
 
 on:
   workflow_dispatch:
